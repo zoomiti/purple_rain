@@ -38,11 +38,12 @@ fn main() {
 
     let mut drops = Vec::new();
     let mut rng = rand::thread_rng();
-    for _i in 0..200 {
+
+    for _i in 0..1000 {
         drops.push(Drop {
             x: (rng.gen_range(0..WIDTH as i32)),
             y: (rng.gen_range(0..HEIGHT as i32)),
-            z: (rng.gen_range(1..20)),
+            z: ((rng.sample(rand_distr::Geometric::new(0.2).unwrap())+1) as i32),
         })
     }
 
