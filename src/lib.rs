@@ -14,10 +14,7 @@ pub fn draw(drops: &mut Vec<Drop>, frame: &mut [u8]) {
         let mut drawn = false;
         for y in drop.y..(drop.y + drop.z) {
             for x in drop.x..(drop.x + drop.z/4) {
-                let res = (y * (WIDTH as i32) * 4 + x * 4).try_into();
-                if res.is_ok() {
-                    let i = res.unwrap();
-
+                if let Ok(i) = (y * (WIDTH as i32) * 4 + x * 4).try_into() {
                     if i < frame.len() {
                         drawn = true;
                         frame[i..i + 4].copy_from_slice(&[207, 100, 219, 0xff]);
