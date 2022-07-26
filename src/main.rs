@@ -11,8 +11,7 @@ use winit::{
 };
 use winit_input_helper::WinitInputHelper;
 
-const WIDTH: u32 = 400;
-const HEIGHT: u32 = 300;
+use purple_rain::*;
 
 fn main() {
     env_logger::init();
@@ -84,43 +83,3 @@ fn main() {
     });
 }
 
-fn draw(drops: &mut Vec<Drop>, frame: &mut [u8]) {
-    let pixels = frame.chunks_exact_mut(4);
-    for pixel in pixels {
-        pixel.copy_from_slice(&[0xd3, 0xb7, 0xf7, 0xff]);
-    }
-
-    drops.iter_mut().for_each(|d| d.update());
-
-    for drop in drops {
-        let mut drawn = false;
-        for y in drop.y..(drop.y + drop.z) {
-            for x in drop.x..(drop.x + drop.z/4) {
-                let res = (y * (WIDTH as i32) * 4 + x * 4).try_into();
-                if res.is_ok() {
-                    let i = res.unwrap();
-
-                    if i < frame.len() {
-                        drawn = true;
-                        frame[i..i + 4].copy_from_slice(&[207, 100, 219, 0xff]);
-                    }
-                }
-            }
-        }
-        if !drawn {
-            drop.y = -drop.z;
-        }
-    }
-}
-
-struct Drop {
-    x: i32,
-    y: i32,
-    z: i32,
-}
-
-impl Drop {
-    fn update(&mut self) {
-        self.y += std::cmp::max(self.z/4, 1);
-    }
-}
