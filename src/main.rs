@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 use chrono::Duration;
 use log::error;
 use pixels::{Pixels, SurfaceTexture};
@@ -44,7 +46,7 @@ fn main() {
             x: (rng.gen_range(0..WIDTH as i32)),
             y: (rng.gen_range(0..HEIGHT as i32)),
             z: ((rng.sample(rand_distr::Geometric::new(0.2).unwrap())+1) as i32),
-        })
+        });
     }
 
     let timer = Timer::new();
