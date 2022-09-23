@@ -6,15 +6,28 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = "0.4.19"
-env_logger = "0.9.0"
+instant = "0.1.12"
 log = "0.4.17"
 pixels = "0.9.0"
 rand = "0.8.5"
 rand_distr = "0.4.3"
-timer = "0.2.0"
 winit = "0.26.1"
+
+[target.'cfg(target_family = "wasm")'.dependencies]
+console_error_panic_hook = "0.1.7"
+getrandom = { version = "0.2", features = ["js"] }
+console_log = { version = "0.2.0", features = ["wasm-bindgen"] }
+wasm-bindgen = "0.2.82"
+wasm-bindgen-futures = "0.4.32"
+web-sys = { version = "0.3.57", features = ["Element", "HtmlCollection"] }
+
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
+tokio = { version = "1.21.0", features = ["rt-multi-thread", "sync", "time"] }
+env_logger = "0.9.0"
 winit_input_helper = "0.12.0"
+
+[target.wasm32-unknown-unknown.dependencies]
+web-sys = "*"
 
 [dev-dependencies]
 bencher = "0.1.5"
